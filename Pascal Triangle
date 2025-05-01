@@ -1,0 +1,16 @@
+class Solution {
+
+    ArrayList<Integer> nthRowOfPascalTriangle(int n) {
+        // code here
+    ArrayList<Integer> row = new ArrayList<>();
+    int mod = 1000000007;
+    long prev = 1;
+    row.add((int)prev);
+    
+    for(int k=1;k<n;k++){
+        prev = (prev *(n-k))/k;
+        row.add((int)(prev%mod));
+    }
+    return row;
+    }
+}
