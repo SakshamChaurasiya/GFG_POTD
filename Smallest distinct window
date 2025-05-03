@@ -1,0 +1,42 @@
+class Solution {
+    public int findSubString(String str) {
+           if(str==null||str.length()==0){
+               return 0;
+           }
+           
+           
+           Map<Character,Integer> distinctChars = new HashMap<>();
+           for(char c:str.toCharArray()){
+               distinctChars.put(c,distinctChars.getOrDefault(c,0)+1);
+           }
+           int distinctCount = distinctChars.size();
+           
+           Map<Character,Integer> windowChars = new HashMap<>();
+           
+           int left=0;
+           int minLength=Integer.MAX_VALUE;
+           int formed = 0;
+           
+           for(int right=0;right<str.length();right++){
+               char currentChar = str.charAt(right);
+            windowChars.put(currentChar,windowChars.getOrDefault(currentChar,0)+1);
+            
+            if(windowChars.get(currentChar)==1){
+                formed++;
+            }
+            
+            while(formed==distinctCount && left<=right){
+                minLength=Math.min(minLength,right-left+1);
+                
+                char leftChar = str.charAt(left);
+                windowChars.put(leftChar,windowChars.get(leftChar)-1);
+                
+                if(windowChars.get(leftChar)==0){
+                    formed--;
+                }
+                left++;
+            }
+           }
+        return minLength;
+    }
+}
