@@ -1,0 +1,46 @@
+class Solution {
+    
+    public static int evaluate(int x,int A,int B,int C){
+        return A*x*x + B*x + C;
+    }
+    
+    public ArrayList<Integer> sortArray(int[] arr, int A, int B, int C) {
+       int n = arr.length;
+       int[] newArr = new int[n];
+       
+       int left = 0,right=n-1;
+       int index = (A>=0) ? n-1:0;
+       
+       
+       while(left<=right){
+           int leftVal = evaluate(arr[left],A,B,C);
+           int rightVal = evaluate(arr[right],A,B,C);
+           
+           if(A>=0){
+               
+               if(leftVal>rightVal){
+                   newArr[index--] = leftVal;
+                   left++;
+               }else{
+                   newArr[index--] = rightVal;
+                   right--;
+               }
+           }else{
+               
+               if(leftVal<rightVal){
+                   newArr[index++]=leftVal;
+                   left++;
+               }else{
+                   newArr[index++]=rightVal;
+                   right--;
+               }
+           }
+       }
+       
+       ArrayList<Integer> result = new ArrayList<>();
+       for(int value:newArr){
+           result.add(value);
+       }
+    return result;
+    }
+}
