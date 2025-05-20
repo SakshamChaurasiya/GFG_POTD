@@ -1,0 +1,74 @@
+class Solution {
+    public static int maximum(Node root){
+        if(root==null){
+            return 0;
+        }
+        
+        int leftM = maximum(root.left);
+        int rightM = maximum(root.right);
+        return Math.max(root.data,Math.max(leftM,rightM));
+    }
+    
+    public static void preorder(Node root,ArrayList<ArrayList<Integer>> list){
+        if(root==null){
+            return;
+        }
+        
+        if(root.left!=null){
+            list.get(root.data).add(root.left.data);
+            list.get(root.left.data).add(root.data);
+        }
+        
+        if(root.right!=null){
+            list.get(root.data).add(root.right.data);
+            list.get(root.right.data).add(root.data);
+        }
+        
+        preorder(root.left,list);
+        preorder(root.right,list);
+    }
+    public static int minTime(Node root, int target) {
+        if(root==null){
+         return 0;   
+        }
+        int maxi = maximum(root);
+        
+        ArrayList<ArrayList<Integer>> list = new ArrayList<>();
+        
+        for(int i=0;i<maxi+1;i++){
+            list.add(new ArrayList<>());
+        }
+        
+        preorder(root,list);
+        
+        boolean vis[] = new boolean[maxi+1];
+        
+        int totalTime = 0;
+        
+        Queue<Integer> q = new LinkedList<>();
+        
+        q.add(target);
+        vis[target] = true;
+        
+        while(!q.isEmpty()){
+            int size = q.size();
+            boolean burnedNode = false;
+            for(int i=0;i<size;i++){
+                int curr = q.poll();
+                for(int j=0;j<list.get(curr).size();j++){
+                    int idx = list.get(curr).get(j);
+                    
+                    if(!vis[idx]){
+                        q.add(list.get(curr).get(j));
+                        burnedNode = true;
+                        vis[idx] = true;
+                    }
+                }
+            }
+            if(burnedNode){
+                totalTime++;
+            }
+        }
+        return totalTime;
+    }
+}
