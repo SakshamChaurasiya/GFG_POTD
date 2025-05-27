@@ -1,0 +1,48 @@
+class Solution {
+    public ArrayList<Integer> leafNodes(int[] preorder) {
+      ArrayList<Integer> res = new ArrayList<>();
+      if(preorder==null||preorder.length==0){
+          return res;
+      }
+      
+      Node root =buildBSTAndCollectLeaves(preorder,res);
+      return res;
+    }
+    
+    private Node buildBSTAndCollectLeaves(int[] preorder,ArrayList<Integer> leaves){
+        if(preorder.length==0) return null;
+        
+        Node root= new Node(preorder[0]);
+        
+        if(preorder.length==1){
+            leaves.add(root.key);
+            return root;
+        }
+        
+        int rightStart=1;
+        while(rightStart<preorder.length && preorder[rightStart]<root.key){
+            rightStart++;
+        }
+        int[] leftPreorder = new int[rightStart-1];
+        System.arraycopy(preorder,1,leftPreorder,0,leftPreorder.length);
+        
+        int[] rightPreorder = new int[preorder.length-rightStart];
+        System.arraycopy(preorder,rightStart,rightPreorder,0,rightPreorder.length);
+        
+        root.left = buildBSTAndCollectLeaves(leftPreorder,leaves);
+        root.right=buildBSTAndCollectLeaves(rightPreorder,leaves);
+        
+        if(root.left==null && root.right==null){
+            leaves.add(root.key);
+        }
+        return root;
+    } 
+}
+class Node{
+    int key;
+    Node left,right;
+    Node(int key){
+       this.key=key;
+       left=right=null;
+    }
+}
