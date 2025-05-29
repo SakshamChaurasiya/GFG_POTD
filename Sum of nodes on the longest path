@@ -1,0 +1,26 @@
+class Solution {
+    
+    int height(Node root){
+        if(root==null) return 0;
+        int leftheight = height(root.left);
+        int rightheight = height(root.right);
+        return 1+Math.max(leftheight,rightheight);
+    }
+    int ans =0;
+    void maxsum(Node root,int level,int sum){
+        if(root==null) return;
+        if(root.left==null && root.right==null){
+            if(level==1) ans = Math.max(ans,root.data+sum);
+            return;
+        }
+        maxsum(root.left,level-1,sum+root.data);
+        maxsum(root.right,level-1,sum+root.data);
+    }
+    
+    public int sumOfLongRootToLeafPath(Node root) {
+        int ht = height(root);
+        maxsum(root,ht,0);
+        return ans;
+        
+    }
+}
