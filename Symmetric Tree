@@ -1,0 +1,14 @@
+class Solution {
+     public boolean solve(Node left,Node right){
+        if(left==null||right==null) return left==right;
+        if(left.data!=right.data) return false;
+        return solve(left.left,right.right) && solve(left.right,right.left);
+    }
+    
+    public boolean isSymmetric(Node root) {
+       Node left = root.left;
+       Node right  = root.right;
+      return solve(left,right);
+    }
+   
+}
