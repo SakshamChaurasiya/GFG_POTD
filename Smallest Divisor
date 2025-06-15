@@ -1,22 +1,23 @@
 class Solution {
     int smallestDivisor(int[] arr, int k) {
-        int lo =0,hi = Arrays.stream(arr).max().getAsInt(),ans=0;
-        while(lo<=hi){
-            int mid = (lo+hi)/2;
-            if(chec(arr,mid,k)){
-                ans=mid;
-                hi=mid-1;
+        long sum =0;
+        for(int item:arr) sum+=item;
+        long left=1,right=Arrays.stream(arr).max().getAsInt();
+        while(left<=right){
+            int mid=(int)(left+(right-left)/2);
+            if(sum(arr,mid)<=k){
+                right=mid-1;
             }else{
-                lo=mid+1;
+                left=mid+1;
             }
         }
-        return ans;
+        return (int)left;
     }
-    static boolean chec(int[] arr,int answer,int k){
-        int sum = 0;
-        for(int i:arr){
-            sum+=i%answer == 0?i/answer : i/answer+1;
+    public long sum(int[] arr,int k){
+        long sum=0;
+        for(int item:arr){
+            sum+=Math.ceil((double)item/k);
         }
-        return sum<=k;
+        return sum;
     }
 }
