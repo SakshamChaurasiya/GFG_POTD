@@ -1,0 +1,22 @@
+class Solution {
+    int smallestDivisor(int[] arr, int k) {
+        int lo =0,hi = Arrays.stream(arr).max().getAsInt(),ans=0;
+        while(lo<=hi){
+            int mid = (lo+hi)/2;
+            if(chec(arr,mid,k)){
+                ans=mid;
+                hi=mid-1;
+            }else{
+                lo=mid+1;
+            }
+        }
+        return ans;
+    }
+    static boolean chec(int[] arr,int answer,int k){
+        int sum = 0;
+        for(int i:arr){
+            sum+=i%answer == 0?i/answer : i/answer+1;
+        }
+        return sum<=k;
+    }
+}
