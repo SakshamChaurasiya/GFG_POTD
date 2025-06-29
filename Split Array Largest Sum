@@ -1,0 +1,41 @@
+class Solution {
+    public int splitArray(int[] arr, int k) {
+        int maxElem = arr[0];
+        int totalSum = 0;
+        for(int a:arr){
+            maxElem = Math.max(maxElem,a);
+            totalSum+=a;
+        }
+        
+        
+        int l=maxElem;
+        int r=totalSum;
+        
+        while(l<r){
+            int mid=l+(r-l)/2;
+            
+            if(isValid(mid,arr,k)){
+                r=mid;
+            }else{
+                l=mid+1;
+            }
+        }
+        return l;
+    }
+    
+    public boolean isValid(int target,int[] arr,int k){
+        int sum=0,count=1;
+       
+       for(int num:arr){
+           sum+=num;
+           if(sum>target){
+               sum=num;
+               count++;
+               if(count>k){
+                   return false;
+               }
+           }
+       }
+       return true;
+    }
+};
